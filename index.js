@@ -1,4 +1,4 @@
-// Resilience Fitness - index.js
+// Chandler Bass Tattoo - index.js
 var app = require('express')();
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -38,8 +38,8 @@ app.post('/email', function(req, res) {
         var mailOptions = {
             from: process.env.EMAIL_USER || 'criewaldt@gmail.com',
             to: process.env.EMAIL_USER || 'criewaldt@gmail.com',
-            subject: 'Interested client from ResilienceFitness.net',
-            text: 'Interested client from ResilienceFitness.net\n\n' +
+            subject: 'Interested client from ChandlerBTattoo.com',
+            text: 'Interested client from ChandlerBTattoo.com\n\n' +
                 req.body.name + '\n' + req.body.phone + '\n' + req.body.email
         };
         
