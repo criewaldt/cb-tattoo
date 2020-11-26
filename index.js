@@ -5,6 +5,18 @@ var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var port = process.env.PORT || 3000;
 
+const fs = require("fs");
+const path = require('path');
+
+const blackFolder = 'public/tattoos/black';
+const colorFolder = 'public/tattoos/color';
+
+const getTats = require('./getTats');
+var tatList = {};
+getTats.getTats(function(logFiles){
+  tatList = logFiles;
+});
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -29,38 +41,17 @@ app.set('view engine', 'pug');
 // Serve Static Files
 app.use(express.static(__dirname + '/public'));
 
-// email post
-app.post('/email', function(req, res) {
-    console.log(req.body);
-    
-    try {
-        //send email
-        var mailOptions = {
-            from: process.env.EMAIL_USER || 'criewaldt@gmail.com',
-            to: process.env.EMAIL_USER || 'criewaldt@gmail.com',
-            subject: 'Interested client from ChandlerBTattoo.com',
-            text: 'Interested client from ChandlerBTattoo.com\n\n' +
-                req.body.name + '\n' + req.body.phone + '\n' + req.body.email
-        };
-        
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-                res.send('no');
-            } else {
-                console.log('Email sent: ' + info.response);
-                res.send('yes');
-            }
-        });
-    }
-    catch(err) {
-        console.log('ERROR: sending email failed.');
-    }
-    
+// index view
+app.get('/tats', function(req, res) {
+    //console.log(results);
+    console.log(tatList);
+    res.json(tatList);
 });
+    
 
 // index view
 app.get('/', function(req, res) {
+  
     res.render('index');
 });
 

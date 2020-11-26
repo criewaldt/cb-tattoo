@@ -10,8 +10,8 @@ html(lang="en")
         meta(content="Chandler Bass, chandlerb, tattoo, charleston" name="keywords")
         
         // Favicons 
-        link(href="assets/img/favicon.png", rel="icon")
-        link(href="assets/img/apple-touch-icon.png", rel="apple-touch-icon")
+        link(href="assets/img/REBlack.png", rel="icon")
+        link(href="assets/img/REBlack.png", rel="apple-touch-icon")
         
         // Google Fonts
         link(href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Playfair+Display:400,400i,500,500i,600,600i,700,700i,900,900i" rel="stylesheet")
@@ -103,26 +103,18 @@ html(lang="en")
                             ul(id="portfolio-flters")
                                 li(data-filter="*" class="filter-active")
                                     | All
-                                li(data-filter=".filter-app")
-                                    | Traditional 
-                                li(data-filter=".filter-card")
-                                    | Script
-                                li(data-filter=".filter-web")
-                                    | Geometric
+                                li(data-filter=".filter-color")
+                                    | Color 
+                                li(data-filter=".filter-bw")
+                                    | Black & White
           
-                    div(class="row portfolio-container")
-          
-                        div(class="col-lg-4 col-md-6 portfolio-item filter-app")
-                            img(src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="")
-                            div(class="portfolio-info")
-                                h4
-                                    | Example 1
-                                p
-                                    | App
-                                a(href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="App 1")
-                                    i(class="bx bx-plus")
-                                a(href="portfolio-details.html" class="details-link" title="More Details")
-                                    i(class="bx bx-link")
+                    //insert javascript
+                    
+            
+                    
+                    div(id="myTats" class="row portfolio-container")
+            
+                        
     
             // Contact Section 
             div(id="contact" class="paddsection")
@@ -218,3 +210,5 @@ html(lang="en")
         
         // Template Main JS File
         script(src="assets/js/main.js")
+        
+        script(src="assets/js/populateTats.js")
