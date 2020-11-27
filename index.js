@@ -46,6 +46,7 @@ app.get('/tats', function(req, res) {
     //console.log(results);
     //console.log(tatList);
     res.json(tatList);
+    console.log('there was a tats request');
 });
 
 // email post
