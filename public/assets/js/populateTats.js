@@ -1,6 +1,7 @@
 
 
 $.get("/tats", function(data, status){
+  
   data.color.forEach(function (item, index) {
     var myTats = document.getElementById("myTats");
     var portfolio = document.createElement("div");
@@ -22,5 +23,6 @@ $.get("/tats", function(data, status){
     myTats.appendChild(portfolio);
     portfolio.appendChild(image);
   });
+  
 });
 

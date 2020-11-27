@@ -106,7 +106,7 @@ html(lang="en")
                                 li(data-filter=".filter-color")
                                     | Color 
                                 li(data-filter=".filter-bw")
-                                    | Black & White
+                                    | Black & Grey
           
                     //insert javascript
                     
@@ -140,7 +140,7 @@ html(lang="en")
                                                 | example@example.com
                 
                             div(class="col-lg-6")
-                                form(action="forms/contact.php" method="post" role="form" class="php-email-form")
+                                form(action="/email" method="post" role="form" class="php-email-form")
                                     div(class="row")
                     
                                         div(class="col-lg-6")
@@ -153,14 +153,14 @@ html(lang="en")
                                                 input(type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email")
                                                 div(class="validate")
                       
-                                        div(class="col-lg-12")
+                                        div(class="col-lg-6")
                                             div(class="form-group")
-                                                input(type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject")
+                                                input(type="text" class="form-control" name="phone" id="phone" placeholder="phone" data-rule="minlen:4" data-msg="Please enter something")
                                                 div(class="validate")
                       
                                         div(class="col-lg-12")
                                             div(class="form-group")
-                                                textarea(class="form-control" name="message" rows="12" data-rule="required" data-msg="Please write something for us" placeholder="Message")
+                                                textarea(class="form-control" name="message" rows="12" data-rule="required" data-msg="Please enter a message" placeholder="Message")
                                                 div(class="validate")
                       
                                         div(class="col-lg-12 mb-3")
@@ -188,10 +188,12 @@ html(lang="en")
                             a(href="#")
                                 i(class="ion-social-twitter")
                         li
-                            a(href="#")
+                            a(href="https://www.instagram.com/chandlerbtattoo/?hl=en")
                                 i(class="ion-social-instagram")
                 p
-                    | &copy; Website by ChrisR
+                    | &copy; Website by 
+                    a(href="")
+                        | ChrisR Media
             
                
         

@@ -30,7 +30,7 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: process.env.EMAIL_USER || 'criewaldt@gmail.com',
-    pass: process.env.EMAIL_PW || 'nrssnfyicsislxkd'
+    pass: process.env.EMAIL_PW || 'hzgofnqixeawynbe'
   }
 });
 
@@ -46,6 +46,36 @@ app.get('/tats', function(req, res) {
     //console.log(results);
     console.log(tatList);
     res.json(tatList);
+});
+
+// email post
+app.post('/email', function(req, res) {
+    console.log(req.body);
+    
+    try {
+        //send email
+        var mailOptions = {
+            from: process.env.EMAIL_USER || 'criewaldt@gmail.com',
+            to: process.env.EMAIL_USER || 'criewaldt@gmail.com',
+            subject: 'Interested client from ChandlerBTattoo.com',
+            text: 'Interested client from ChandlerBTattoo.com\n\n' +
+                req.body.name + '\n' + req.body.email + '\n' + req.body.phone + '\n' + req.body.message
+        };
+        
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+                res.send('Problem with contact form, please try again.');
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.send('Message sent!');
+            }
+        });
+    }
+    catch(err) {
+        console.log('ERROR: sending email failed.');
+    }
+    
 });
     
 
