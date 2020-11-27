@@ -1,6 +1,4 @@
-$( document ).ready(function() {
-      
-alert('document is ready');
+     
 $.get("/tats", function(data, status){
   
       data.color.forEach(function (item, index) {
@@ -26,6 +24,4 @@ $.get("/tats", function(data, status){
       });
       
     });
-
-});
 
