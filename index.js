@@ -16,6 +16,7 @@ var tatList = {};
 getTats.getTats(function(logFiles){
   tatList = logFiles;
 });
+console.log(tatList);
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -82,8 +83,7 @@ app.post('/email', function(req, res) {
 
 // index view
 app.get('/', function(req, res) {
-  
-    res.render('index');
+    res.render('index', {myTats:tatList});
 });
 
 // 404 for any page that doesnt exist - This goes after all other views

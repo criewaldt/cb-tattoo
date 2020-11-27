@@ -1,4 +1,7 @@
-     
+
+
+
+/**
 $.get("/tats", function(data, status){
   
       data.color.forEach(function (item, index) {
@@ -24,4 +27,5 @@ $.get("/tats", function(data, status){
       });
       
     });
+*/
 

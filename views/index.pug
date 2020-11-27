@@ -109,13 +109,18 @@ html(lang="en")
                                     | Color 
                                 li(data-filter=".filter-bw")
                                     | Black & Grey
-          
-                    //insert javascript
+
+                        
+                    div(id="myTats" class="row portfolio-container")
+                        
+                        each val in myTats.color
+                            div(class="col-lg-4 col-md-6 portfolio-item filter-color")
+                                img(class="img-fluid" src="tattoos/color/"+val)
+                        each val in myTats.bw
+                            div(class="col-lg-4 col-md-6 portfolio-item filter-bw")
+                                img(class="img-fluid" src="tattoos/bw/"+val)
+                        
                     
-            
-                    
-                    div(id="test" class="row portfolio-container")
-                        div(id="myTats")
             
                         
     
@@ -215,5 +220,3 @@ html(lang="en")
         
         // Template Main JS File
         script(src="assets/js/main.js")
-        
-        script(src="assets/js/populateTats.js")
