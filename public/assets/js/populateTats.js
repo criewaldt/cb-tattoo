@@ -1,5 +1,7 @@
 $( document ).ready(function() {
-      $.get("/tats", function(data, status){
+      
+alert('document is ready');
+$.get("/tats", function(data, status){
   
       data.color.forEach(function (item, index) {
         var myTats = document.getElementById("myTats");
@@ -24,7 +26,6 @@ $( document ).ready(function() {
       });
       
     });
-
 
 });
 
