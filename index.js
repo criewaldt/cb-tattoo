@@ -44,7 +44,7 @@ app.use(express.static(__dirname + '/public'));
 // index view
 app.get('/tats', function(req, res) {
     //console.log(results);
-    console.log(tatList);
+    //console.log(tatList);
     res.json(tatList);
 });
 
