@@ -6,6 +6,11 @@
 */
 (function($) {
   "use strict";
+  
+  function textMe() {
+    alert('textme');
+    window.location.href = "sms:+8435666028&body=Hi%2520there%252C%2520I%2527d%2520like%2520to%2520place%2520an%2520order%2520for...";
+}
 
   // Smooth scroll for the navigation menu and links with .scrollto classes
   var scrolltoOffset = $('#main-nav').outerHeight() - 1;
