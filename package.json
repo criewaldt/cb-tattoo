@@ -23,6 +23,7 @@
   "homepage": "https://github.com/criewaldt",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dropbox": "^8.2.0",
     "express": "^4.17.1",
     "glob": "^7.1.6",
     "nodemailer": "^6.4.14",

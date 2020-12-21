@@ -35,13 +35,14 @@ html(lang="en")
         nav(id="main-nav")
             div(class="row")
                 div(class="container")
-    
                     
+                    div(class="logo")
+                        a(href="/")
+                            img(src="assets/img/logo.png" alt="logo")
     
                     div(class="responsive")
-                        h4
-                            |  Chandler Bass Tattoo   
-                            i(data-icon="m" class="ion-navicon-round")
+
+                        i(data-icon="m" class="ion-navicon-round")
               
                     ul(class="nav-menu list-unstyled")
                         li
@@ -102,9 +103,8 @@ html(lang="en")
                     div(class="section-title text-center")
                         h2
                             | My Work
-          
+                            
                 div(class="container")
-          
                     div(class="row")
                         div(class="col-lg-12 d-flex justify-content-center")
                             ul(id="portfolio-flters")
@@ -115,20 +115,14 @@ html(lang="en")
                                 li(data-filter=".filter-bw")
                                     | Black & Grey
 
-                        
                     div(id="myTats" class="row portfolio-container")
-                        
                         each val in myTats.color
                             div(class="col-lg-4 col-md-6 portfolio-item filter-color")
-                                img(class="img-fluid" src="tattoos/color/"+val)
+                                img(class="img-fluid" src=""+val)
                         each val in myTats.bw
                             div(class="col-lg-4 col-md-6 portfolio-item filter-bw")
-                                img(class="img-fluid" src="tattoos/bw/"+val)
+                                img(class="img-fluid" src=""+val)
                         
-                    
-            
-                        
-    
             // Contact Section 
             div(id="contact" class="paddsection")
                 div(class="container")

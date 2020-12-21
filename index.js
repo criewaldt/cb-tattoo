@@ -5,19 +5,6 @@ var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var port = process.env.PORT || 3000;
 
-const fs = require("fs");
-const path = require('path');
-
-const blackFolder = 'public/tattoos/black';
-const colorFolder = 'public/tattoos/color';
-
-const getTats = require('./getTats');
-var tatList = {};
-getTats.getTats(function(logFiles){
-  tatList = logFiles;
-});
-console.log(tatList);
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -30,9 +17,67 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER || 'criewaldt@gmail.com',
-    pass: process.env.EMAIL_PW || 'hzgofnqixeawynbe'
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PW
   }
+});
+
+
+//dropbox
+//get all current tattoo photo web links from dropbox
+var tattoos = {'bw':[],'color':[]};
+const Dropbox = require('dropbox');
+var dbx = new Dropbox.Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN });
+//get bw list of images
+dbx.filesListFolder({path: "/tattoos/bw"})
+    .then(function(response) {
+      //get paths
+      response.result.entries.forEach(function (result){
+          //get sharable links
+          dbx.sharingCreateSharedLink({path: result.path_lower})
+            .then(function(uri) {
+                //add to array
+                //console.log(uri.result.url);
+                var splitUrl = uri.result.url.split('?dl=0')[0];
+                var newUrl = splitUrl.concat('?raw=1');
+                tattoos.bw.push(newUrl);
+             })
+            .catch(function(error) {
+                console.error(error);
+          });
+        });
+      //console.log(JSON.stringify(response.result.entries, null, 4));
+      //console.log(response.entries);
+      
+    })
+    .catch(function(error) {
+      console.error(error);
+});
+    
+//get color list of images
+dbx.filesListFolder({path: "/tattoos/color"})
+    .then(function(response) {
+      //get sharable links for photos
+      response.result.entries.forEach(function (result){
+          //get sharable links
+          dbx.sharingCreateSharedLink({path: result.path_lower})
+            .then(function(uri) {
+                //add to array
+                //console.log(uri.result.url);
+                var splitUrl = uri.result.url.split('?dl=0')[0];
+                var newUrl = splitUrl.concat('?raw=1');
+                tattoos.color.push(newUrl);
+             })
+            .catch(function(error) {
+                console.error(error);
+          });
+        });
+      //console.log(JSON.stringify(response.result.entries, null, 4));
+      //console.log(response.entries);
+      
+    })
+    .catch(function(error) {
+      console.error(error);
 });
 
 // Pug Tempalate Engine
@@ -41,14 +86,6 @@ app.set('view engine', 'pug');
 
 // Serve Static Files
 app.use(express.static(__dirname + '/public'));
-
-// index view
-app.get('/tats', function(req, res) {
-    //console.log(results);
-    //console.log(tatList);
-    res.json(tatList);
-    console.log('there was a tats request');
-});
 
 // email post
 app.post('/email', function(req, res) {
@@ -83,7 +120,8 @@ app.post('/email', function(req, res) {
 
 // index view
 app.get('/', function(req, res) {
-    res.render('index', {myTats:tatList});
+    //console.log(tattoos);
+    res.render('index', {myTats:tattoos});
 });
 
 // 404 for any page that doesnt exist - This goes after all other views
