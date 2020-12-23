@@ -27,7 +27,7 @@ var transporter = nodemailer.createTransport({
 //get all current tattoo photo web links from dropbox
 var tattoos = {'bw':[],'color':[]};
 const Dropbox = require('dropbox');
-var dbx = new Dropbox.Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN });
+var dbx = new Dropbox.Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN});
 //get bw list of images
 dbx.filesListFolder({path: "/tattoos/bw"})
     .then(function(response) {
@@ -79,6 +79,9 @@ dbx.filesListFolder({path: "/tattoos/color"})
     .catch(function(error) {
       console.error(error);
 });
+    
+//request
+const request = require('request');
 
 // Pug Tempalate Engine
 require('pug');
@@ -89,33 +92,53 @@ app.use(express.static(__dirname + '/public'));
 
 // email post
 app.post('/email', function(req, res) {
-    console.log(req.body);
+    //console.log(req.body);
     
-    try {
-        //send email
-        var mailOptions = {
-            from: process.env.EMAIL_USER || 'criewaldt@gmail.com',
-            to: process.env.EMAIL_USER || 'criewaldt@gmail.com',
-            subject: 'Interested client from ChandlerBTattoo.com',
-            text: 'Interested client from ChandlerBTattoo.com\n\n' +
-                req.body.name + '\n' + req.body.email + '\n' + req.body.phone + '\n' + req.body.message
-        };
-        
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-                res.send('Problem with contact form, please try again.');
-            } else {
-                console.log('Email sent: ' + info.response);
-                res.send('Message sent!');
-            }
-        });
-    }
-    catch(err) {
-        console.log('ERROR: sending email failed.');
-    }
+    // Put your secret key here.
+    var secretKey = process.env.RECAPTCHA;
+    // req.connection.remoteAddress will provide IP address of connected user.
+    var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+
+    //check recaptcha
+    request(verificationUrl,function(error,response,body) {
+      body = JSON.parse(body);
+      console.log(body);
+      // Success will be true or false depending upon captcha validation.
+      if(body.success !== undefined && !body.success) {
+          res.send('Are you a robot?...');
+      } else {
+          //NOT A ROBOT!
+          try {
+              //send email
+              var mailOptions = {
+                  from: process.env.EMAIL_USER || 'criewaldt@gmail.com',
+                  to: process.env.EMAIL_USER || 'criewaldt@gmail.com',
+                  subject: 'Interested client from ChandlerBTattoo.com',
+                  text: 'Interested client from ChandlerBTattoo.com\n\n' +
+                      req.body.name + '\n' + req.body.email + '\n' + req.body.phone + '\n' + req.body.message
+              };
+              
+              transporter.sendMail(mailOptions, function(error, info){
+                  if (error) {
+                      console.log(error);
+                      res.send('Problem with contact form, please try again.');
+                  } else {
+                      console.log('Email sent: ' + info.response);
+                      res.send('Message sent!');
+                  }
+              });
+          }
+          catch(err) {
+              console.log('ERROR: sending email failed.');
+          }
+      }
+    });
+    
+    
     
 });
+
+
     
 
 // index view
