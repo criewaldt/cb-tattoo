@@ -5,6 +5,13 @@ var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var port = process.env.PORT || 3000;
 
+//env variables
+var EMAIL_USER = '';
+var EMAIL_PW = '';
+var DROPBOX_ACCESS_TOKEN = '';
+var RECAPTCHA = '';
+
+
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -17,8 +24,8 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PW
+    user: process.env.EMAIL_USER || EMAIL_USER,
+    pass: process.env.EMAIL_PW || EMAIL_PW
   }
 });
 
@@ -27,9 +34,9 @@ var transporter = nodemailer.createTransport({
 //get all current tattoo photo web links from dropbox
 var tattoos = {'bw':[],'color':[]};
 const Dropbox = require('dropbox');
-var dbx = new Dropbox.Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN});
-//get bw list of images
-dbx.filesListFolder({path: "/tattoos/bw"})
+var dbx = new Dropbox.Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN || DROPBOX_ACCESS_TOKEN});
+//get bw list of images    
+dbx.filesListFolder({path: "/website/bw"})
     .then(function(response) {
       //get paths
       response.result.entries.forEach(function (result){
@@ -55,7 +62,7 @@ dbx.filesListFolder({path: "/tattoos/bw"})
 });
     
 //get color list of images
-dbx.filesListFolder({path: "/tattoos/color"})
+dbx.filesListFolder({path: "/website/color"})
     .then(function(response) {
       //get sharable links for photos
       response.result.entries.forEach(function (result){
@@ -95,7 +102,7 @@ app.post('/email', function(req, res) {
     //console.log(req.body);
     
     // Put your secret key here.
-    var secretKey = process.env.RECAPTCHA;
+    var secretKey = process.env.RECAPTCHA || RECAPTCHA;
     // req.connection.remoteAddress will provide IP address of connected user.
     var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
 
@@ -111,8 +118,9 @@ app.post('/email', function(req, res) {
           try {
               //send email
               var mailOptions = {
-                  from: process.env.EMAIL_USER || 'criewaldt@gmail.com',
-                  to: process.env.EMAIL_USER || 'criewaldt@gmail.com',
+                  from: process.env.EMAIL_USER || EMAIL_USER,
+                  to: process.env.EMAIL_USER || EMAIL_USER,
+                  cc: 'criewaldt@gmail.com',
                   subject: 'Interested client from ChandlerBTattoo.com',
                   text: 'Interested client from ChandlerBTattoo.com\n\n' +
                       req.body.name + '\n' + req.body.email + '\n' + req.body.phone + '\n' + req.body.message
@@ -130,6 +138,7 @@ app.post('/email', function(req, res) {
           }
           catch(err) {
               console.log('ERROR: sending email failed.');
+              console.log(err);
           }
       }
     });
