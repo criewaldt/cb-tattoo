@@ -200,6 +200,10 @@ figure {
 img {
   vertical-align: middle;
   border-style: none;
+<<<<<<< HEAD
+=======
+  max-width: 600px;
+>>>>>>> fa8b9d20101fee5baaa533188e20c088e8660a53
 }
 
 svg {
