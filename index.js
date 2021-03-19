@@ -13,7 +13,7 @@ const path = require('path');
 //env variables
 var EMAIL_USER = '';
 var EMAIL_PW = '';
-var DROPBOX_ACCESS_TOKEN = '1WVVq5c9KN8AAAAAAAAAAdNapSCCZfGkXaQos7_dR4WmY0XDIiziHKLfhXdyOn3b';
+var DROPBOX_ACCESS_TOKEN = '';
 var RECAPTCHA = '';
 
 
