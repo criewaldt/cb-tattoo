@@ -5,11 +5,130 @@ var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var port = process.env.PORT || 3000;
 
+//new
+const dropboxV2Api = require('dropbox-v2-api');
+const fs = require('fs');
+const path = require('path');
+
 //env variables
 var EMAIL_USER = '';
 var EMAIL_PW = '';
 var DROPBOX_ACCESS_TOKEN = '';
 var RECAPTCHA = '';
+
+
+
+// create session ref:
+const dropbox = dropboxV2Api.authenticate({
+    token: process.env.DROPBOX_ACCESS_TOKEN || DROPBOX_ACCESS_TOKEN
+});
+
+const bw = './public/tattoos/bw';
+const color = './public/tattoos/color';
+
+var tattoos = {'bw':[],'color':[]};
+
+//BW PHOTOS
+//delete photos
+fs.readdir(bw, (err, files) => {
+  if (err) throw err;
+
+  for (var file of files) {
+    console.log('removed ' + file);
+    fs.unlink(path.join(bw, file), err => {
+      if (err) throw err;
+    });
+  }
+});
+
+//download dropbox photos
+dropbox({
+    resource: 'files/list_folder',
+    parameters: {
+        'path': '/website/bw',
+        'recursive': false,
+        'include_media_info': false,
+        'include_deleted': false,
+        'include_has_explicit_shared_members': false,
+        'include_mounted_folders': true,
+        'include_non_downloadable_files': true
+    }
+}, (err, result, response) => {
+    result.entries.forEach(function (imageName) {
+        tattoos.bw.push(path.join('/tattoos/bw', imageName.name));
+        console.log('about to download image: '+imageName.name);
+        //download images
+        dropbox({
+            resource: 'files/download',
+            parameters: {
+                path: imageName.path_lower
+            }
+        }, (err, result, response) => {
+            //download completed
+        })
+            //save file
+            .pipe(fs.createWriteStream(path.join(bw, imageName.name))); 
+            
+        });
+
+});
+
+
+
+
+
+
+// COLOR images
+fs.readdir(color, (err, files) => {
+  if (err) throw err;
+
+  for (var file of files) {
+    console.log('removed ' + file);
+    fs.unlink(path.join(color, file), err => {
+      if (err) throw err;
+    });
+  }
+});
+//download dropbox photos
+dropbox({
+    resource: 'files/list_folder',
+    parameters: {
+        'path': '/website/color',
+        'recursive': false,
+        'include_media_info': false,
+        'include_deleted': false,
+        'include_has_explicit_shared_members': false,
+        'include_mounted_folders': true,
+        'include_non_downloadable_files': true
+    }
+}, (err, result, response) => {
+    result.entries.forEach(function (imageName) {
+        tattoos.color.push(path.join('/tattoos/color', imageName.name));
+        console.log('about to download image: '+imageName.name);
+        //download images
+        dropbox({
+            resource: 'files/download',
+            parameters: {
+                path: imageName.path_lower
+            }
+        }, (err, result, response) => {
+            //download completed
+        })
+            //save file
+            
+            .pipe(fs.createWriteStream(path.join(color, imageName.name))); 
+            
+        });
+      
+
+});
+
+
+
+//end new
+
+
+
 
 
 // parse application/x-www-form-urlencoded
@@ -29,12 +148,12 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-
+/*
 //dropbox
 //get all current tattoo photo web links from dropbox
 var tattoos = {'bw':[],'color':[]};
-const Dropbox = require('dropbox');
-var dbx = new Dropbox.Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN || DROPBOX_ACCESS_TOKEN});
+const Dropboxs = require('dropbox');
+var dbx = new Dropboxs.Dropbox({ accessToken: process.env.DROPBOX_ACCESS_TOKEN || DROPBOX_ACCESS_TOKEN});
 //get bw list of images    
 dbx.filesListFolder({path: "/website/bw"})
     .then(function(response) {
@@ -86,6 +205,7 @@ dbx.filesListFolder({path: "/website/color"})
     .catch(function(error) {
       console.error(error);
 });
+*/
     
 //request
 const request = require('request');
@@ -152,6 +272,13 @@ app.post('/email', function(req, res) {
 
 // index view
 app.get('/', function(req, res) {
+    //console.log(tattoos);
+    res.render('index', {myTats:tattoos});
+});
+
+// test view
+app.get('/go', function(req, res) {
+    console.log(tattoos);
     //console.log(tattoos);
     res.render('index', {myTats:tattoos});
 });
