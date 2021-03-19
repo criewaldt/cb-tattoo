@@ -1,0 +1,255 @@
+html(lang="en")
+
+    head
+    
+        meta(charset="utf-8")
+        meta(content="width=device-width, initial-scale=1.0" name="viewport")
+        
+        title Chandler Bass Tattoo | Charleston, SC
+        meta(content="Chandler Bass Tattoo" name="descriptison")
+        meta(content="Chandler Bass, chandlerb, tattoo, charleston" name="keywords")
+        
+        // Favicons 
+        link(rel="apple-touch-icon" sizes="180x180" href="assets/img/icons/apple-touch-icon.png")
+        link(rel="icon" type="image/png" sizes="32x32" href="assets/img/icons/favicon-32x32.png")
+        link(rel="icon" type="image/png" sizes="16x16" href="assets/img/icons/favicon-16x16.png")
+        link(rel="manifest" href="assets/img/icons/site.webmanifest")
+        
+        // Google Fonts
+        link(href="https://fonts.googleapis.com/css?family=Poppins:300,300i,400,400i,500,500i,600,600i,700,700i|Playfair+Display:400,400i,500,500i,600,600i,700,700i,900,900i" rel="stylesheet")
+        
+        // Vendor CSS Files 
+        link(href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet")
+        link(href="assets/vendor/hover/hover.min.css" rel="stylesheet")
+        link(href="assets/vendor/ionicons/css/ionicons.min.css" rel="stylesheet")
+        link(href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet")
+        link(href="assets/vendor/venobox/venobox.css" rel="stylesheet")
+        link(href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet")
+        
+        // Template Main CSS File 
+        link(href="assets/css/style.css" rel="stylesheet")
+        
+        //recaptcha
+        script(src="https://www.google.com/recaptcha/api.js" async defer)
+        
+    body
+    
+        // Navbar 
+        nav(id="main-nav")
+            div(class="row")
+                div(class="container")
+                    
+                    div(class="logo")
+                        a(href="/")
+                            img(src="assets/img/logo.png" alt="logo")
+    
+                    div(class="responsive")
+
+                        i(data-icon="m" class="ion-navicon-round")
+              
+                    ul(class="nav-menu list-unstyled")
+                        li
+                            a(href="index.html" class="smoothScroll")
+                                | Back To Top 
+                        li
+                            a(href="#about" class="smoothScroll")
+                                | About Me
+                        li
+                            a(href="#portfolio" class="smoothScroll")
+                                | My Work 
+                        li
+                            a(href="#contact" class="smoothScroll")
+                                | Contact Me
+        // End Navbar
+    
+        // Hero Section
+        div(id="hero" class="home")
+            div(class="container")
+                div(class="hero-content")
+                    h1
+                        | Chandler Bass Tattoo
+                    p
+                        |  Charleston S.C.
+
+        // End Hero
+        
+        //main 
+        main(id="main")
+            // About Section
+            div(id="about" class="paddsection")
+                div(class="container")
+                    div(class="row justify-content-between")
+            
+                        div(class="col-lg-6")
+                            div(class="div-img-bg")
+                                div(class="about-img")
+                                    img(src="assets/img/me.jpg" class="img-responsive" alt="me")
+            
+                        div(class="col-lg-6")
+                            div(class="about-descr")
+                
+                                p.text-center(class="p-heading")
+                                    | My love for tattooing is the greatest I have ever known, I am all consumed by it.
+                                p.text-center(class="separator")
+                                    | Originally from the backwoods of Michigan, I’ve been a Charleston resident for 10 years now.
+                                p.text-center(class="separator")
+                                    | I was trained under Brad Grimes, voted Charleston’s best artist 2 years in a row. I started on my own in May of 2018, and I will be a student of the craft until I die.
+                                p.text-center(class="separator")
+                                    | Nothing makes me happier than giving people a product that will last their entire lives.
+                                    | In a world where everything is quick and temporary, I find it comforting that I can provide something different. 
+            // End About Section
+            
+            // Portfolio Section
+            div(id="portfolio" class="paddsection")
+        
+                div(class="container")
+                    div(class="section-title text-center")
+                        h2
+                            | My Work
+                            
+                div(class="container")
+                    div(class="row")
+                        div(class="col-lg-12 d-flex justify-content-center")
+                            ul(id="portfolio-flters")
+                                li(data-filter="*" class="filter-active")
+                                    | All
+                                li(data-filter=".filter-color")
+                                    | Color 
+                                li(data-filter=".filter-bw")
+                                    | Black & Grey
+
+                    div(id="myTats" class="row portfolio-container")
+                        each val in myTats.color
+                            div(class="col-lg-4 col-md-6 portfolio-item filter-color")
+                                img(class="img-fluid" src=""+val)
+                                p
+                                    val
+                        each val in myTats.bw
+                            div(class="col-lg-4 col-md-6 portfolio-item filter-bw")
+                                img(class="img-fluid" src=""+val)
+                        
+            // Contact Section 
+            div(id="contact" class="paddsection")
+                div(class="container")
+                    div(class="contact-block1")
+                        div(class="row")
+              
+                            div(class="col-lg-6")
+                                div(class="contact-contact")
+                  
+                                    h2(class="mb-30 text-center")
+                                        | Contact Me
+                    
+                                    ul(class="contact-details text-center")
+                                        li
+                                            span
+                                                | Ready to book? Got a question?
+                                                br
+                                                br
+                                            span
+                                                | Chandler Bass Tattoo
+                                                br
+                                                | (843) 566-6028
+                                                br
+                                                | Charleston, SC
+                                        br
+                                        
+                                        button(type="button" class="btn btn-secondary" onclick="textMe()")
+                                            | Send Me A Text
+                                        br
+                                        br
+                                        li
+                                            span
+                                                | Or you can fill out the form.
+                
+                            div(class="col-lg-6")
+                                form(action="/email" method="post" role="form" class="php-email-form")
+                                    div(class="row")
+                    
+                                        div(class="col-lg-12")
+                                            div(class="form-group contact-block1")
+                                                input(type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars")
+                                                div(class="validate")
+                      
+                                        div(class="col-lg-6")
+                                            div(class="form-group")
+                                                input(type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email")
+                                                div(class="validate")
+                                            
+                                    
+                      
+                                        div(class="col-lg-6")
+                                            div(class="form-group")
+                                                input(type="text" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter something")
+                                                div(class="validate")
+                                      
+                                    
+
+                      
+                                        div(class="col-lg-12")
+                                            div(class="form-group")
+                                                textarea(class="form-control" name="message" rows="12" data-rule="required" data-msg="Please enter a message" placeholder="Message")
+                                                div(class="validate")
+                                                
+                                    div(class="row")
+                                        
+                      
+                                        div(class="col-lg-12 mb-3")
+                                            div(class="loading")
+                                                | Loading
+                                            div(class="error-message")
+                                                | 
+                                            div(class="sent-message")
+                                                | Your message has been sent. Thank you!
+                                        
+                                    
+                      
+                                        div(class="col-lg-12")
+                                            input(type="submit" class="btn btn-defeault btn-send" value="Send message")
+                                    br 
+                                    div(class="row")
+                                        div(class="col-lg-3")
+                                        div(class="col-lg-6")
+                                            div(class="g-recaptcha" data-sitekey="6LedWREaAAAAAP6omW4g8BqqOjXT_j0Rto4XbOya")
+                                        div(class="col-lg-3")
+
+
+            
+                
+            
+            // End Contact Section
+                    
+        // Footer
+        div(id="footer" class="text-center")
+            div(class="container")
+                div(class="socials-media text-center")
+            
+                    ul(class="list-unstyled")
+                        li
+                            a(href="https://www.instagram.com/chandlerbtattoo/?hl=en")
+                                i(class="ion-social-instagram")
+                p
+                    | &copy; Website by 
+                    a(href="http://www.chrisriewaldt.com")
+                        | ChrisR Media
+            
+               
+        
+        // end footer
+            
+        // Vendor JS Files 
+        script(src="assets/vendor/jquery/jquery.min.js")
+        script(src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js")
+        script(src="assets/vendor/jquery.easing/jquery.easing.min.js")
+        script(src="assets/vendor/php-email-form/validate.js")
+        script(src="assets/vendor/typed/typed.js")
+        script(src="assets/vendor/jquery-sticky/jquery.sticky.js")
+        script(src="assets/vendor/isotope-layout/isotope.pkgd.min.js")
+        script(src="assets/vendor/venobox/venobox.min.js")
+        script(src="assets/vendor/owl.carousel/owl.carousel.min.js")
+        
+        // Template Main JS File
+        script(src="assets/js/main.js")
+        
+        // Custom JS File
+        script(src="assets/js/populateTats.js")
